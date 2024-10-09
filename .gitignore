@@ -1,0 +1,5 @@
+# Excluimos los ejecutables.c
+*.out
+
+# Exclido vim
+*.swp
