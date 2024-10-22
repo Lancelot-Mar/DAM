@@ -9,21 +9,15 @@
 int main(){
 
 	char str1[20];
-
-	int numero_letra;
-
-	char nueva_letra;
+	char str2[20];
 
 	printf("Introduzca una Palabra:\n");
 	scanf(" %s", str1);
 	
-	printf("Que posicion desea modificar?\n");
-	scanf(" %d", &numero_letra-1);
+	printf("Introduce otra Palabra:\n");
+	scanf(" %s", str2);
 	
-	printf("Que caracter desea poner?\n");
-	scanf(" %c", &nueva_letra);
-
-	str1[numero_letra] = nueva_letra;
+	str1['\n'] = str2;
 
 	printf("La nueva palabra es:%s\n",str1);
 
