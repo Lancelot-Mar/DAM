@@ -17,9 +17,9 @@ int main(){
 	printf("Introduce otra Palabra:\n");
 	scanf(" %s", str2);
 	
-	str1['\n'] = str2;
+	str1['\n'] = '_';
 
-	printf("La nueva palabra es:%s\n",str1);
+	printf("La nueva palabra es:%s%s\n",str1,str2);
 
 return 0;
 }
