@@ -7,20 +7,25 @@
 */
 
 int main(){
+	// Son distintas debido al hueco de memoria donde se guarda.
+	char str1[20] = "iguales";
+	char str2[20] = "iguales";
 
-	char str1[20];
-	char str2[20];
+	if (str1 == str2){
+		printf("Son iguales");
+	}else{
+		printf("Son distintas");
+	}
 
-	printf("Introduzca una Palabra:\n");
-	scanf(" %s", str1);
-	
-	printf("Introduce otra Palabra:\n");
-	scanf(" %s", str2);
-	
-	str1['\n'] = '_';
-
-	printf("La nueva palabra es:%s%s\n",str1,str2);
-
+	if (str1 == str2){
+		printf("Son iguales");
+	}else{
+		printf("Son distintas");
+	}
+	for (int i= 0; i<8; i++){
+		if(str1[i] == str2[i]){}
+			printf("%s", str[i]);
+	}
 return 0;
 }
 
