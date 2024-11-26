@@ -30,6 +30,11 @@ Estudiante * inicializar(char * nombre, int edad, float nota){
 	// La Variable de tipo a puntero estudiante, no posee una memoria reservada por lo cual los datos que guardemos no se salvaran
 	return estudiante_nuevo;
 }
+
+
+
+	Mostrar datos estudiante
+
 */
 
 void inicializar(Estudiante * estudiante_rellenar, char * nombre, int edad, float nota){
@@ -40,6 +45,12 @@ void inicializar(Estudiante * estudiante_rellenar, char * nombre, int edad, floa
 	//estudiante_rellenar.nombre = nombre; No funciona porque estamos igualando la direccion de memoria y no el contenido de esta
 	strcpy(estudiante_rellenar.nombre, nombre)
 	
+}
+
+void cumpleagnos(Estudiante * cump){//es un puntero debido a que modifica la funcion
+
+	cump->edad++;
+
 }
 
 int main(){
@@ -73,6 +84,10 @@ int main(){
 		inicializar(/*direccion de memoria del estudiante*/&lista[i],nombre,edad,nota);
 
 	}
+
+	printf("Edad antigua %s: %d\n",lista[0].nombre,lista->edad);
+	cumpleagno(&lista[0]);
+	printf("Edad nueva: %d\n",listado[0].edad);
 
 	return 0;
 }
