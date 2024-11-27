@@ -31,12 +31,17 @@ typedef struct {
 void BookList(Book * Cataloge){
 
 	switch(Cataloge->cat){
-	case 0: printf("FICTION");
+	case 0:printf("%d, %s, %s, %f, FICTION, %d \n",Cataloge->id,Cataloge->tittle,Cataloge->author,Cataloge->price,Cataloge->stock);
 	break; 
-	case 1:
+	case 1:printf("%d, %s, %s, %f, NON_FICTION, %d \n",Cataloge->id,Cataloge->tittle,Cataloge->author,Cataloge->price,Cataloge->stock); 
+	break; 
+	case 2:printf("%d, %s, %s, %f, ESSAY, %d \n",Cataloge->id,Cataloge->tittle,Cataloge->author,Cataloge->price,Cataloge->stock); 
+	break; 
+	case 3:printf("%d, %s, %s, %f, POETRY, %d \n",Cataloge->id,Cataloge->tittle,Cataloge->author,Cataloge->price,Cataloge->stock); 
+	break; 
+	case 4:printf("%d, %s, %s, %f, THEATER, %d \n",Cataloge->id,Cataloge->tittle,Cataloge->author,Cataloge->price,Cataloge->stock); 
+	break; 
 	}
-
-	printf("%d, %s, %s, %f, %d, %d \n",Cataloge->id,Cataloge->tittle,Cataloge->author,Cataloge->price,Cataloge->cat,Cataloge->stock);
 
 }
 
