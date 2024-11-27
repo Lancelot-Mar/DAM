@@ -8,6 +8,7 @@
 
 #define MAX_NOMBRE 20 
 #define MAX_ESTUDIANTES 20
+#define MAX_BUFFER 200
 
 typedef struct{
 	char nombre[MAX_NOMBRE];
@@ -43,9 +44,10 @@ void inicializar(Estudiante * estudiante_rellenar, char * nombre, int edad, floa
 	estudiante_rellenar->nota = nota; //Tambien con esta ultima
 	
 	//estudiante_rellenar.nombre = nombre; No funciona porque estamos igualando la direccion de memoria y no el contenido de esta
-	strcpy(estudiante_rellenar.nombre, nombre)
+	strcpy(estudiante_rellenar->nombre, nombre);
 	
 }
+
 
 void cumpleagnos(Estudiante * cump){//es un puntero debido a que modifica la funcion
 
@@ -53,8 +55,30 @@ void cumpleagnos(Estudiante * cump){//es un puntero debido a que modifica la fun
 
 }
 
+void imprimir_Estudiante(const Estudiante * estudiante_a_imprimr){
+
+	printf("Nombre: %s\n", estudiante_a_imprimr->nombre);
+	printf("\tEdad: %d\n", estudiante_a_imprimr->edad);
+	printf("\tNota: %f\n", estudiante_a_imprimr->nota);
+
+}
+
+void estudiante_string(const Estudiante * datos,char * retval){
+
+	// snprintf(donde,cuando,porque)
+	snprintf(retval,MAX_BUFFER,"El estudiante %s de %d años ha sacado un: %f\n",datos->nombre,datos->edad,datos->nota);
+
+}
+
+void cambiar_nombre(Estudiante * NombreACambiar, char * nombre_nuevo){
+
+	strcpy(NombreACambiar ->nombre, nombre_nuevo);
+
+}
+
 int main(){
 	
+	char retval[MAX_BUFFER];
 	int num_estudiante = 0, edad = 0;
 	float nota;
 	char nombre[MAX_NOMBRE];
@@ -70,7 +94,7 @@ int main(){
 
 	// Le damos los datos a la direccion de memoria asignada al struct dentro de un bucle para que vaya estudiante a estudiante
 	
-	for(int i = 0; i < num_estudiantes; i++){
+	for(int i = 0; i < num_estudiante; i++){
 
 		printf("Introduce la edad\n");
 		scanf("%d", &edad);
@@ -86,8 +110,26 @@ int main(){
 	}
 
 	printf("Edad antigua %s: %d\n",lista[0].nombre,lista->edad);
-	cumpleagno(&lista[0]);
-	printf("Edad nueva: %d\n",listado[0].edad);
+	cumpleagnos(&lista[0]);
+	printf("Edad nueva: %d\n",lista[0].edad);
+
+	// Imprimir estudiantes
+
+	imprimir_Estudiante(&lista[0]);
+
+	char StrinARellenar[MAX_BUFFER];
+	estudiante_string(&lista[0], StrinARellenar);
+	printf("%s\n",StrinARellenar);
+
+	char nombre_nuevo[MAX_NOMBRE];
+	printf("Dame un nuevo nombre:");
+	scanf("%s",nombre_nuevo);
+
+	cambiar_nombre(&lista[0],nombre_nuevo);
+
+	estudiante_string(&lista[0], StrinARellenar);
+	printf("%s\n",StrinARellenar);
+
 
 	return 0;
 }
