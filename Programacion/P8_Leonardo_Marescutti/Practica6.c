@@ -24,30 +24,60 @@ typedef struct {
 	char tittle[MAX_TITTLE];
 	char author[MAX_AUTHOR];
 	float price;
-	Category cat ;
+	Category cat;
 	int stock;
 } Book;
 
-void BookList(Book * Cataloge){
+void category(Category * Catalogue){
+    
+    switch(*Catalogue){
+        case 0:printf("FICTION,");
+            break; 
+        case 1:printf("NON_FICTION,"); 
+            break; 
+        case 2:printf("ESSAY,");
+            break; 
+        case 3:printf("POETRY,"); 
+            break; 
+        case 4:printf("THEATER,"); 
+            break; 
+        default:printf("ERROR,"); 
+    }
+}
 
-	switch(Cataloge->cat){
-	case 0:printf("%d, %s, %s, %f, FICTION, %d \n",Cataloge->id,Cataloge->tittle,Cataloge->author,Cataloge->price,Cataloge->stock);
-	break; 
-	case 1:printf("%d, %s, %s, %f, NON_FICTION, %d \n",Cataloge->id,Cataloge->tittle,Cataloge->author,Cataloge->price,Cataloge->stock); 
-	break; 
-	case 2:printf("%d, %s, %s, %f, ESSAY, %d \n",Cataloge->id,Cataloge->tittle,Cataloge->author,Cataloge->price,Cataloge->stock); 
-	break; 
-	case 3:printf("%d, %s, %s, %f, POETRY, %d \n",Cataloge->id,Cataloge->tittle,Cataloge->author,Cataloge->price,Cataloge->stock); 
-	break; 
-	case 4:printf("%d, %s, %s, %f, THEATER, %d \n",Cataloge->id,Cataloge->tittle,Cataloge->author,Cataloge->price,Cataloge->stock); 
-	break; 
-	}
+void BookList(Book * List){
+
+    printf("%d,%s,%s,%.2f,",List->id,List->tittle,List->author,List->price);
+    category(&List->cat);
+    printf("%d\n",List->stock);
 
 }
 
+void BookID(Book * ID,int search){
+
+    if((ID->id) == search){
+        BookList(ID);
+    }
+
+}
+
+void BookStock(Book * ID_Stock,int search,int stock_add){
+
+    if((ID_Stock->id) == search){
+        printf("%d,%s,%s,%.2f,",ID_Stock->id,ID_Stock->tittle,ID_Stock->author,ID_Stock->price);
+        category(&ID_Stock->cat);
+        printf("%d\n",ID_Stock->stock + stock_add);
+    }
+
+}
+
+void BookCategory(Book * Catgory_Books)
+
 int main(){
 
+    int ID_Book,Stock_Book,Stock_IDBook;
 	char book_list[MAX_BUFFER];
+    char Category_Book[20]
 
     Book books[NUM_BOOK] = {
         {1, "To Kill a Mockingbird", "Harper Lee", 15.99, FICTION, 10},
@@ -93,10 +123,49 @@ int main(){
     }; 
 
 	for(int i = 0; i < NUM_BOOK; i++){
-
 	BookList(&books[0]+i);
-
 	}
+
+    printf("Insert an ID:\n");
+    scanf("%d", &ID_Book);
+
+    if(ID_Book <= NUM_BOOK){
+
+        for(int i = 0; i < NUM_BOOK; i++){
+        BookID(&books[0]+i,ID_Book);
+        }
+
+    }else{
+        printf("ERROR,Book doesnt exist.");
+    }
+    
+    printf("Insert an ID:\n");
+    scanf("%d", &Stock_IDBook);
+    printf("Add Stock of the selected ID:\n");
+    scanf("%d", &Stock_Book);
+
+    if(ID_Book <= NUM_BOOK){
+
+        for(int i = 0; i < NUM_BOOK; i++){
+        BookStock(&books[0]+i,Stock_IDBook,Stock_Book);
+        }
+
+    }else{
+        printf("ERROR,Book doesnt exist.");
+    }
+
+    printf("Select a category(FICTION,NON_FICTION,ESSAY,POETRY and THEATER):\n");
+    scanf("%s", Category_Book);
+
+    if(ID_Book <= NUM_BOOK){
+
+        for(int i = 0; i < NUM_BOOK; i++){
+        BookStock(&books[0]+i,Stock_IDBook,Stock_Book);
+        }
+
+    }else{
+        printf("ERROR,Book doesnt exist.");
+    }
 
 	return 0;
 }
