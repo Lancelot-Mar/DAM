@@ -9,7 +9,6 @@
 #define MAX_AUTHOR 50 
 #define MAX_TITTLE 100
 #define NUM_BOOK 40
-#define MAX_BUFFER 300
 
 typedef enum {
 	FICTION,
@@ -47,6 +46,7 @@ void category(Category * Catalogue){
 
 void BookList(Book * List){
 
+
     printf("%d,%s,%s,%.2f,",List->id,List->tittle,List->author,List->price);
     category(&List->cat);
     printf("%d\n",List->stock);
@@ -71,13 +71,24 @@ void BookStock(Book * ID_Stock,int search,int stock_add){
 
 }
 
-void BookCategory(Book * Catgory_Books)
+void BookCategory(Book * Catgory_Books,int category_number){
+        
+    if(Category_Book <= 4){
+        for(int i = 0; i < NUM_BOOK; i++){
+            if(((Catgory_Books+i)->cat) == category_number){
+            BookList(Category_Books);
+        }
+    }
+        }else{
+        printf("ERROR,Book doesnt exist. Please insert a valid Category\n");
+    }
+
+
+}
 
 int main(){
 
-    int ID_Book,Stock_Book,Stock_IDBook;
-	char book_list[MAX_BUFFER];
-    char Category_Book[20]
+    int ID_Book,Stock_Book,Stock_IDBook,Category_Book;
 
     Book books[NUM_BOOK] = {
         {1, "To Kill a Mockingbird", "Harper Lee", 15.99, FICTION, 10},
@@ -120,7 +131,9 @@ int main(){
         {38, "The Communist Manifesto", "Karl Marx and Friedrich Engels", 5.99, ESSAY, 12},
         {39, "The Republic", "Plato", 16.00, ESSAY, 6},
         {40, "Thus Spoke Zarathustra", "Friedrich Nietzsche", 14.99, ESSAY, 10}
-    }; 
+    };
+
+    // Add for inside the void functions
 
 	for(int i = 0; i < NUM_BOOK; i++){
 	BookList(&books[0]+i);
@@ -136,36 +149,32 @@ int main(){
         }
 
     }else{
-        printf("ERROR,Book doesnt exist.");
+        printf("ERROR,Book doesnt exist. Please insert a valid ID(1-40)\n");
     }
     
     printf("Insert an ID:\n");
     scanf("%d", &Stock_IDBook);
+
     printf("Add Stock of the selected ID:\n");
     scanf("%d", &Stock_Book);
 
-    if(ID_Book <= NUM_BOOK){
+    if(Stock_IDBook <= NUM_BOOK){
 
         for(int i = 0; i < NUM_BOOK; i++){
         BookStock(&books[0]+i,Stock_IDBook,Stock_Book);
         }
 
     }else{
-        printf("ERROR,Book doesnt exist.");
+        printf("ERROR,Book doesnt exist. Please insert a valid ID(1-40)\n");
     }
 
-    printf("Select a category(FICTION,NON_FICTION,ESSAY,POETRY and THEATER):\n");
-    scanf("%s", Category_Book);
+    printf("Select a category(FICTION = 0,NON_FICTION = 1,ESSAY = 2,POETRY = 3 and THEATER = 4):\n");
+    scanf("%d", &Category_Book);
 
-    if(ID_Book <= NUM_BOOK){
 
-        for(int i = 0; i < NUM_BOOK; i++){
-        BookStock(&books[0]+i,Stock_IDBook,Stock_Book);
-        }
+        BookCategory(&books[0],Category_Book);
+        
 
-    }else{
-        printf("ERROR,Book doesnt exist.");
-    }
 
 	return 0;
 }
