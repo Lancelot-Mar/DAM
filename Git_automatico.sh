@@ -1,7 +1,7 @@
 #!/bin/bash
 
 # Directory da gestire
-DIR="DAM/"
+DIR="/home/cfgs/DAM/"
 
 # Verifica se la directory esiste
 if [ -d "$DIR" ]; then
