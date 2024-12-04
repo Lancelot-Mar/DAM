@@ -6,17 +6,23 @@
  *	Autor: Leonardo Marescutti
  */
 
+//Aplico los define para definir los tamaños
+
 #define MAX_AUTHOR 50 
 #define MAX_TITTLE 100
 #define NUM_BOOK 40
 
+//Definimos el enum para las categorias de libros
+
 typedef enum {
-	FICTION,
-	NON_FICTION,
-	ESSAY,
-	POETRY,
-	THEATER,
+	FICTION,// => 0
+	NON_FICTION,// => 1
+	ESSAY,// => 2
+	POETRY,// => 3
+	THEATER,// => 4
 } Category;
+
+//Definimos la estructura de los libros con un struct
 
 typedef struct {
 	int id;
@@ -27,8 +33,13 @@ typedef struct {
 	int stock;
 } Book;
 
+//Funcion Categoria en la cual pasamos del enum en decimal a imprimir el tipo de Categoria 
+
 void category(Category * Catalogue){
     
+    //Con un puntero a Cataloguo que es el hueco de memoria que defne el enum de categoria 
+    //aplicamos un switch para cambiar los enteros de enum a printf para imprimir la categoria que necesitemos
+
     switch(*Catalogue){
         case 0:printf("FICTION,");
             break; 
@@ -40,55 +51,96 @@ void category(Category * Catalogue){
             break; 
         case 4:printf("THEATER,"); 
             break; 
-        default:printf("ERROR,"); 
+        default:printf("ERROR,"); //En caso de que haya un numero superior al enum agrego un default que imprima erros
     }
 }
+
+//Funcion para imprimir toda la lista de libros:
 
 void BookList(Book * List){
 
+    //Creo un bucle para recorrer todo el array incrementando el numero de 
+    //este ultimo llendo 1 a 1 hasta llegar al maximo del defined NUM_BOOK
 
+    for(int i = 0; i < NUM_BOOK; i++, List++){
     printf("%d,%s,%s,%.2f,",List->id,List->tittle,List->author,List->price);
+
+    //Para imprimir la categoria llamo la funcion anterior para que imprima dependiendo 
+    //del contenido de la categoria del libro, una vez devuelta la categoria siguo imprimiendo el stock
+
     category(&List->cat);
     printf("%d\n",List->stock);
-
-}
-
-void BookID(Book * ID,int search){
-
-    if((ID->id) == search){
-        BookList(ID);
     }
+}
+
+//Funcion para imprimir un solo libro:
+
+void Print_Book(Book * PrintBook){
+
+    //Repetimos lo mismo de la funcion anterior pero sin el bucle que recorre el array
+
+    printf("%d,%s,%s,%.2f,",PrintBook->id,PrintBook->tittle,PrintBook->author,PrintBook->price);
+    category(&PrintBook->cat);
+    printf("%d\n",PrintBook->stock);
 
 }
 
-void BookStock(Book * ID_Stock,int search,int stock_add){
+//Funcion para imprimir un solo libro por ID:
 
-    if((ID_Stock->id) == search){
-        printf("%d,%s,%s,%.2f,",ID_Stock->id,ID_Stock->tittle,ID_Stock->author,ID_Stock->price);
-        category(&ID_Stock->cat);
-        printf("%d\n",ID_Stock->stock + stock_add);
-    }
+void BookID(Book * ID,const int search){
 
-}
+    //Creo un bucle para recorrer todo el array incrementando el numero de 
+    //este ultimo llendo 1 a 1 hasta llegar al ID seleccionado
 
-void BookCategory(Book * Catgory_Books,int category_number){
-        
-    if(Category_Book <= 4){
-        for(int i = 0; i < NUM_BOOK; i++){
-            if(((Catgory_Books+i)->cat) == category_number){
-            BookList(Category_Books);
+    for(int i = 0; i < NUM_BOOK; i++, ID++){
+        if((ID->id) == search){
+            Print_Book(ID); //Una vez encontrado este llama la funcion de Imprimir un Libro
         }
     }
-        }else{
-        printf("ERROR,Book doesnt exist. Please insert a valid Category\n");
+}
+
+//Funcion para aumentar stock:
+
+void BookStock(Book * ID_Stock,const int search,const int stock_add){
+
+    if(ID_Stock->id == search){ //Hacemos un condicional que ejecute lo siguiente solo si el contenido de id sea igual a search
+
+            ID_Stock -> stock += stock_add;//Aumentamos el stock sumando el contenido de stock incrementandolo con el stock que hallamos dado antes.
+            Print_Book(ID_Stock);//Imprimimos el libro una vez incrementado dandole el puntero al array de libros
+
     }
+    //Antiguo codigo:
 
+    //printf("%d,%s,%s,%.2f,",ID_Stock->id,ID_Stock->tittle,ID_Stock->author,ID_Stock->price);
+    //category(&ID_Stock->cat);
+    //printf("%d\n",ID_Stock->stock + stock_add);
 
+}
+
+//Funcion para imprimir un solo libro por Categoria:
+
+void BookCategory(Book * Category_Books,const int category_number){
+        
+    if(category_number < 5){//Hacemos un condicional para verificar quel numero sea valido
+
+        //Creo un bucle para recorrer todo el array incrementando el numero de este ultimo llendo 1 a 1 hasta 
+        //llegar al maximo del defined NUM_BOOK, incrementando el array que le damos
+
+        for(int i = 0; i < NUM_BOOK; i++,Category_Books++){
+            if((Category_Books->cat) == category_number){ //El bucle recorre hasta encontrar valores que tengan el mismo contenido(Verificamos el contenido de cat con la flecha) que el numero de la categoria que le demos
+            Print_Book(Category_Books);//Llamo la funcion de imprimir un libro dandole el array incrementado a un valor con el id seleccionado
+            }
+        }
+    }else{
+        printf("ERROR,Book doesnt exist. Please insert a valid Category\n");//En caso de que haya un numero superior al enum agrego hago que imprima erros
+    }
 }
 
 int main(){
 
-    int ID_Book,Stock_Book,Stock_IDBook,Category_Book;
+    //Definimos enteros y array con contenido de libros:
+
+    int ID_Book,Stock_Book,Stock_IDBook,Category_Book,Option;
 
     Book books[NUM_BOOK] = {
         {1, "To Kill a Mockingbird", "Harper Lee", 15.99, FICTION, 10},
@@ -133,49 +185,73 @@ int main(){
         {40, "Thus Spoke Zarathustra", "Friedrich Nietzsche", 14.99, ESSAY, 10}
     };
 
-    // Add for inside the void functions
+    //Creamos un Menu para seleccionar la funcion que queramos:
 
-	for(int i = 0; i < NUM_BOOK; i++){
-	BookList(&books[0]+i);
-	}
+    printf("Menu:\n\
+        - Show all books.(0)\n\
+        - Display the book that matches the ID or an error message.(1)\n\
+        - Increase the stock of the book ID.(2)\n\
+        - Display all books in the given category as a storyline.(3)\n");
 
-    printf("Insert an ID:\n");
-    scanf("%d", &ID_Book);
+    scanf("%d",&Option); //Guardamos el valor del menu
 
-    if(ID_Book <= NUM_BOOK){
+    switch(Option){ //Hacemos un condicional para el menu
 
-        for(int i = 0; i < NUM_BOOK; i++){
-        BookID(&books[0]+i,ID_Book);
-        }
+    case 0://Primera opcion imprimir toda la lista
 
-    }else{
-        printf("ERROR,Book doesnt exist. Please insert a valid ID(1-40)\n");
-    }
-    
-    printf("Insert an ID:\n");
-    scanf("%d", &Stock_IDBook);
+        BookList(&books[0]); //llamamos la funcion de la lista de libros dandole la primera posicion del array de libros
 
-    printf("Add Stock of the selected ID:\n");
-    scanf("%d", &Stock_Book);
+        break; 
 
-    if(Stock_IDBook <= NUM_BOOK){
+    case 1://Segunda opcion imprimir el libro por ID
 
-        for(int i = 0; i < NUM_BOOK; i++){
-        BookStock(&books[0]+i,Stock_IDBook,Stock_Book);
-        }
+        printf("Insert an ID:\n");
+        scanf("%d", &ID_Book);//Guardamos el valor del ID
 
-    }else{
-        printf("ERROR,Book doesnt exist. Please insert a valid ID(1-40)\n");
-    }
-
-    printf("Select a category(FICTION = 0,NON_FICTION = 1,ESSAY = 2,POETRY = 3 and THEATER = 4):\n");
-    scanf("%d", &Category_Book);
-
-
-        BookCategory(&books[0],Category_Book);
+        if(ID_Book <= NUM_BOOK){//Hacemos un condicional para verifiacr quel numero sea valido
+            //llamamos la funcion de la imprimir libro por ID dandole la primera posicion del array de libros y el ID que queremos
+            BookID(&books[0],ID_Book);
         
+        }else{//En caso de que el numero no sea valido imprime:
+            printf("ERROR,Book doesnt exist. Please insert a valid ID(1-40)\n");
+        }
 
+        break; 
+
+    case 2://Segunda opcion aumentar el stock por ID
+
+        printf("Insert an ID:\n");
+        scanf("%d", &Stock_IDBook);//Guardamos el valor del ID
+
+        printf("Add Stock of the selected ID:\n");
+        scanf("%d", &Stock_Book);//Guardamos el valor del stock que queremos sumar
+
+        if(Stock_IDBook <= NUM_BOOK){//Hacemos un condicional para verificar quel numero sea valido
+
+            //Esta vez hacemos el bucle fuera para que incremente el valor de i y recorra el array en el main
+            for(int i = 0; i < NUM_BOOK; i++){
+
+                //llamamos la funcion de la imprimir libro por stock dandole la primera posicion del array de libros, 
+                //el ID que queremos y el stock que queremos agregarle
+                BookStock(&books[0]+i,Stock_IDBook,Stock_Book);
+            }
+
+        }else{//En caso de que el numero no sea valido imprime:
+            printf("ERROR,Book doesnt exist. Please insert a valid ID(1-40)\n");
+        }
+
+        break; 
+
+    case 3:
+
+        printf("Select a category(FICTION = 0,NON_FICTION = 1,ESSAY = 2,POETRY = 3 and THEATER = 4):\n");
+        scanf("%d", &Category_Book);//Guardamos el valor de la categoria que queremos
+        
+        //llamamos la funcion de la imprimir libro por categoria dandole la primera posicion del array de libros y el numero de categoria que queremos
+        BookCategory(&books[0],Category_Book); 
+        break; 
+
+    default:printf("ERROR,Please enter a valid entry"); } //En caso de que el numero no sea valido imprime:
 
 	return 0;
 }
-
