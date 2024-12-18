@@ -3,7 +3,7 @@
 #include <string.h>
 
 /*
- *	Autor: Leonardo Marescutti
+ *  Autor: Leonardo Marescutti
  */
 
 //Aplico los define para definir los tamaños
@@ -15,22 +15,22 @@
 //Definimos el enum para las categorias de libros
 
 typedef enum {
-	FICTION,// => 0
-	NON_FICTION,// => 1
-	ESSAY,// => 2
-	POETRY,// => 3
-	THEATER,// => 4
+    FICTION,// => 0
+    NON_FICTION,// => 1
+    ESSAY,// => 2
+    POETRY,// => 3
+    THEATER,// => 4
 } Category;
 
 //Definimos la estructura de los libros con un struct
 
 typedef struct {
-	int id;
-	char tittle[MAX_TITTLE];
-	char author[MAX_AUTHOR];
-	float price;
-	Category cat;
-	int stock;
+    int id;
+    char tittle[MAX_TITTLE];
+    char author[MAX_AUTHOR];
+    float price;
+    Category cat;
+    int stock;
 } Book;
 
 //Funcion Categoria en la cual pasamos del enum en decimal a imprimir el tipo de Categoria 
@@ -138,10 +138,6 @@ void BookCategory(Book * Category_Books,const int category_number){
 
 int main(int argc, char ** argv){
 
-
-
-
-
     //Definimos enteros y array con contenido de libros:
 
     int ID_Book,Stock_Book,Stock_IDBook,Category_Book,Option;
@@ -189,39 +185,33 @@ int main(int argc, char ** argv){
         {40, "Thus Spoke Zarathustra", "Friedrich Nietzsche", 14.99, ESSAY, 10},
     };
 
+        if (argc == 1){}
 
-    if (argc == 1){
+        else if (argc == 3){
 
-    }else if (argc == 2){
+            if (strcmp(argv[1],"show") == 0){
 
-        if (strcmp(argv[1],"show") == 0){
+                if ((atoi(argv[2])) < NUM_BOOK){
+                        ID_Book = atoi(argv[2]);             
+                        BookID(&books[0],ID_Book); 
+                    }
+                }
 
-            if ((argv[2]) < NUM_BOOK){
-                printf("Call function show for id");
-            }else{
-                printf("Call function show");
+            if (strcmp(argv[1],"category") == 0){
+
+                if ((atoi(argv[2])) < 6){
+                    Category_Book = atoi(argv[2]);             
+                    BookCategory(&books[0],Category_Book); 
+                }
             }
-
-        else if (strcmp(argv[1],"stock") == 0){
-
-            if ((argv[2]) < NUM_BOOK){
-                printf("Call function show for id");
-            }else{
-                printf("Call function show");
-            }
-
-        else if (strcmp(argv[1],"category") == 0){
-
-            argv[2] = Category_Book             
-            BookCategory(&books[0],Category_Book);
-
-        else if (strcmp(argv[1],"author") == 0){
-                
-            printf("Call function show for category");
-
-        }else if (strcmp(argv[1],"add") == 0)
-            printf("Call function add");
         }
+        else if (argc == 2){
+
+            if (strcmp(argv[1],"show") == 0){
+                BookList(&books[0]);
+            }
+        }
+
 
     //Creamos un Menu para seleccionar la funcion que queramos:
 
@@ -291,5 +281,5 @@ int main(int argc, char ** argv){
 
     default:printf("ERROR,Please enter a valid entry"); } //En caso de que el numero no sea valido imprime:
 
-	return 0;
+    return 0;
 }
