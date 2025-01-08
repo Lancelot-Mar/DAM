@@ -10,7 +10,7 @@
 
 #define MAX_AUTHOR 50 
 #define MAX_TITTLE 100
-#define NUM_BOOK 40
+int NUM_BOOK = 40;
 
 //Definimos el enum para las categorias de libros
 
@@ -140,11 +140,46 @@ void BookCategory(Book * Category_Books,const int category_number){
     }
 }
 
+Book * Book_Add(Book * Book_sum,const int sum){
+
+    int id,stock;
+    float price;
+    char tittle[MAX_TITTLE], author[MAX_AUTHOR];
+    Category cat;
+
+    Book * catalog_new = realloc(Book_sum,(NUM_BOOK+sum)*sizeof(Book));
+
+    if(catalog_new == NULL){
+        free(catalog_new); 
+    }
+
+    for (int i = NUM_BOOK; i < NUM_BOOK + sum; ++i){
+        printf("Insert Id:");
+        scanf("%d", &id);
+        printf("Insert Tittle:");
+        scanf("%s", tittle);
+        printf("Insert Author:");
+        scanf("%s", author);
+        printf("Insert Price:");
+        scanf("%f", &price);
+        printf("Insert Category:");
+        scanf("%u", &cat);
+        printf("Insert Stock:");
+        scanf("%d", &stock);
+
+        init_book(&catalog_new[i],id,tittle,author,price,cat,stock);
+    }
+
+    BookList(&catalog_new[0]);
+
+    return &catalog_new[0];
+}
+
 int main(int argc, char ** argv){
 
     //Definimos enteros y array con contenido de libros:
 
-    int ID_Book,Stock_Book,Stock_IDBook,Category_Book,Option;
+    int ID_Book,Stock_Book,Stock_IDBook,Category_Book,Option,Book_inc;
 
     Book * catalog = (Book *)malloc(NUM_BOOK*sizeof(Book));
 
@@ -197,13 +232,32 @@ int main(int argc, char ** argv){
 
         if (argc == 1){}
 
+        else if (argc == 4){
+            
+            if (strcmp(argv[1],"add") == 0){
+
+                if ((atoi(argv[2])) < NUM_BOOK){
+                    Stock_IDBook = atoi(argv[2]);             
+                }
+
+                if ((atoi(argv[3])) < NUM_BOOK){
+                    Stock_Book = atoi(argv[3]);
+                    for(int i = 0; i < NUM_BOOK; i++){
+                        BookStock(&catalog[0]+i,Stock_IDBook,Stock_Book);
+                    }             
+                    return 0; 
+                }
+            }
+        }
+
         else if (argc == 3){
 
             if (strcmp(argv[1],"show") == 0){
 
                 if ((atoi(argv[2])) < NUM_BOOK){
                         ID_Book = atoi(argv[2]);             
-                        BookID(&catalog[0],ID_Book); 
+                        BookID(&catalog[0],ID_Book);
+                        return 0; 
                     }
                 }
 
@@ -211,7 +265,8 @@ int main(int argc, char ** argv){
 
                 if ((atoi(argv[2])) < 6){
                     Category_Book = atoi(argv[2]);             
-                    BookCategory(&catalog[0],Category_Book); 
+                    BookCategory(&catalog[0],Category_Book);
+                    return 0; 
                 }
             }
         }
@@ -219,6 +274,7 @@ int main(int argc, char ** argv){
 
             if (strcmp(argv[1],"show") == 0){
                 BookList(&catalog[0]);
+                return 0;
             }
         }
 
@@ -228,7 +284,8 @@ int main(int argc, char ** argv){
         - Show all books.(0)\n\
         - Display the book that matches the ID or an error message.(1)\n\
         - Increase the stock of the book ID.(2)\n\
-        - Display all books in the given category as a storyline.(3)\n");
+        - Display all books in the given category as a storyline.(3)\n\
+        - Increase the number of books.(4)\n");
 
     scanf("%d",&Option); //Guardamos el valor del menu
 
@@ -287,6 +344,15 @@ int main(int argc, char ** argv){
         //llamamos la funcion de la imprimir libro por categoria dandole la primera posicion del array de libros y el numero de categoria que queremos
         BookCategory(&catalog[0],Category_Book); 
         break; 
+
+    case 4:
+
+        printf("Insert the number of books you want to add:\n");
+        scanf("%d", &Book_inc);//Guardamos el valor de los libros a incrementar
+
+        catalog = Book_Add(&catalog[0],Book_inc);
+
+        break;
 
     default:printf("ERROR,Please enter a valid entry"); } //En caso de que el numero no sea valido imprime:
 
