@@ -55,6 +55,16 @@ void category(Category * Catalogue){
     }
 }
 
+
+void init_book(Book * inv,int ident,char * name,char * writter,float cost, Category class, int max){
+    inv -> id = ident;
+    strcpy(inv -> tittle, name);
+    strcpy(inv -> author, writter);
+    inv -> price = cost;
+    inv -> cat = class;
+    inv -> stock = max;
+}
+
 //Funcion para imprimir toda la lista de libros:
 
 void BookList(Book * List){
@@ -109,12 +119,6 @@ void BookStock(Book * ID_Stock,const int search,const int stock_add){
             Print_Book(ID_Stock);//Imprimimos el libro una vez incrementado dandole el puntero al array de libros
 
     }
-    //Antiguo codigo:
-
-    //printf("%d,%s,%s,%.2f,",ID_Stock->id,ID_Stock->tittle,ID_Stock->author,ID_Stock->price);
-    //category(&ID_Stock->cat);
-    //printf("%d\n",ID_Stock->stock + stock_add);
-
 }
 
 //Funcion para imprimir un solo libro por Categoria:
@@ -142,48 +146,54 @@ int main(int argc, char ** argv){
 
     int ID_Book,Stock_Book,Stock_IDBook,Category_Book,Option;
 
-    Book books[NUM_BOOK] = {
-        {1, "To Kill a Mockingbird", "Harper Lee", 15.99, FICTION, 10},
-        {2, "1984", "George Orwell", 12.49, FICTION, 5},
-        {3, "The Great Gatsby", "F. Scott Fitzgerald", 10.99, FICTION, 8},
-        {4, "Moby Dick", "Herman Melville", 18.99, FICTION, 12},
-        {5, "War and Peace", "Leo Tolstoy", 20.00, FICTION, 7},
-        {6, "Pride and Prejudice", "Jane Austen", 14.99, FICTION, 9},
-        {7, "The Catcher in the Rye", "J.D. Salinger", 10.00, FICTION, 6},
-        {8, "The Odyssey", "Homer", 17.49, FICTION, 4},
-        {9, "Ulysses", "James Joyce", 25.00, FICTION, 2},
-        {10, "The Divine Comedy", "Dante Alighieri", 22.00, POETRY, 3},
-        {11, "Leaves of Grass", "Walt Whitman", 13.00, POETRY, 11},
-        {12, "The Iliad", "Homer", 18.50, FICTION, 7},
-        {13, "A Brief History of Time", "Stephen Hawking", 15.00, NON_FICTION, 15},
-        {14, "The Art of War", "Sun Tzu", 9.99, NON_FICTION, 20},
-        {15, "Sapiens: A Brief History of Humankind", "Yuval Noah Harari", 16.49, NON_FICTION, 13},
-        {16, "The Selfish Gene", "Richard Dawkins", 14.00, NON_FICTION, 6},
-        {17, "The Road to Serfdom", "F.A. Hayek", 10.50, NON_FICTION, 5},
-        {18, "The Wealth of Nations", "Adam Smith", 30.00, NON_FICTION, 8},
-        {19, "On the Origin of Species", "Charles Darwin", 24.99, NON_FICTION, 4},
-        {20, "The Prince", "Niccolò Machiavelli", 8.99, NON_FICTION, 14},
-        {21, "Hamlet", "William Shakespeare", 11.50, THEATER, 6},
-        {22, "Macbeth", "William Shakespeare", 9.50, THEATER, 8},
-        {23, "Othello", "William Shakespeare", 10.99, THEATER, 7},
-        {24, "A Doll's House", "Henrik Ibsen", 12.50, THEATER, 5},
-        {25, "Waiting for Godot", "Samuel Beckett", 13.99, THEATER, 4},
-        {26, "Death of a Salesman", "Arthur Miller", 14.99, THEATER, 10},
-        {27, "The Glass Menagerie", "Tennessee Williams", 11.00, THEATER, 9},
-        {28, "Long Day's Journey into Night", "Eugene O'Neill", 19.50, THEATER, 3},
-        {29, "The Importance of Being Earnest", "Oscar Wilde", 8.50, THEATER, 15},
-        {30, "The Waste Land", "T.S. Eliot", 6.99, POETRY, 10},
-        {31, "Paradise Lost", "John Milton", 12.00, POETRY, 7},
-        {32, "Beowulf", "Anonymous", 15.00, POETRY, 5},
-        {33, "Essays", "Michel de Montaigne", 20.00, ESSAY, 4},
-        {34, "Self-Reliance and Other Essays", "Ralph Waldo Emerson", 9.00, ESSAY, 9},
-        {35, "Civil Disobedience and Other Essays", "Henry David Thoreau", 7.50, ESSAY, 11},
-        {36, "Meditations", "Marcus Aurelius", 11.99, ESSAY, 8},
-        {37, "The Federalist Papers", "Alexander Hamilton, James Madison, John Jay", 18.00, ESSAY, 5},
-        {38, "The Communist Manifesto", "Karl Marx and Friedrich Engels", 5.99, ESSAY, 12},
-        {39, "The Republic", "Plato", 16.00, ESSAY, 6},
-        {40, "Thus Spoke Zarathustra", "Friedrich Nietzsche", 14.99, ESSAY, 10},
-    };
+    Book * catalog = (Book *)malloc(NUM_BOOK*sizeof(Book));
+
+    if(catalog == NULL){
+        free(catalog);
+        printf("ERROR\n");
+        return EXIT_FAILURE;
+    }
+
+        init_book(&catalog[0],1, "To Kill a Mockingbird", "Harper Lee", 15.99, FICTION, 10);
+        init_book(&catalog[1],2, "1984", "George Orwell", 12.49, FICTION, 5);
+        init_book(&catalog[2],3, "The Great Gatsby", "F. Scott Fitzgerald", 10.99, FICTION, 8);
+        init_book(&catalog[3],4, "Moby Dick", "Herman Melville", 18.99, FICTION, 12);
+        init_book(&catalog[4],5, "War and Peace", "Leo Tolstoy", 20.00, FICTION, 7);
+        init_book(&catalog[5],6, "Pride and Prejudice", "Jane Austen", 14.99, FICTION, 9);
+        init_book(&catalog[6],7, "The catalogcher in the Rye", "J.D. Salinger", 10.00, FICTION, 6);
+        init_book(&catalog[7],8, "The Odyssey", "Homer", 17.49, FICTION, 4);
+        init_book(&catalog[8],9, "Ulysses", "James Joyce", 25.00, FICTION, 2);
+        init_book(&catalog[9],10, "The Divine Comedy", "Dante Alighieri", 22.00, POETRY, 3);
+        init_book(&catalog[10],11, "Leaves of Grass", "Walt Whitman", 13.00, POETRY, 11);
+        init_book(&catalog[11],12, "The Iliad", "Homer", 18.50, FICTION, 7);
+        init_book(&catalog[12],13, "A Brief History of Time", "Stephen Hawking", 15.00, NON_FICTION, 15);
+        init_book(&catalog[13],14, "The Art of War", "Sun Tzu", 9.99, NON_FICTION, 20);
+        init_book(&catalog[14],15, "Sapiens: A Brief History of Humankind", "Yuval Noah Harari", 16.49, NON_FICTION, 13);
+        init_book(&catalog[15],16, "The Selfish Gene", "Richard Dawkins", 14.00, NON_FICTION, 6);
+        init_book(&catalog[16],17, "The Road to Serfdom", "F.A. Hayek", 10.50, NON_FICTION, 5);
+        init_book(&catalog[17],18, "The Wealth of Nations", "Adam Smith", 30.00, NON_FICTION, 8);
+        init_book(&catalog[18],19, "On the Origin of Species", "Charles Darwin", 24.99, NON_FICTION, 4);
+        init_book(&catalog[19],20, "The Prince", "Niccolò Machiavelli", 8.99, NON_FICTION, 14);
+        init_book(&catalog[20],21, "Hamlet", "William Shakespeare", 11.50, THEATER, 6);
+        init_book(&catalog[21],22, "Macbeth", "William Shakespeare", 9.50, THEATER, 8);
+        init_book(&catalog[22],23, "Othello", "William Shakespeare", 10.99, THEATER, 7);
+        init_book(&catalog[23],24, "A Doll's House", "Henrik Ibsen", 12.50, THEATER, 5);
+        init_book(&catalog[24],25, "Waiting for Godot", "Samuel Beckett", 13.99, THEATER, 4);
+        init_book(&catalog[25],26, "Death of a Salesman", "Arthur Miller", 14.99, THEATER, 10);
+        init_book(&catalog[26],27, "The Glass Menagerie", "Tennessee Williams", 11.00, THEATER, 9);
+        init_book(&catalog[27],28, "Long Day's Journey into Night", "Eugene O'Neill", 19.50, THEATER, 3);
+        init_book(&catalog[28],29, "The Importance of Being Earnest", "Oscar Wilde", 8.50, THEATER, 15);
+        init_book(&catalog[29],30, "The Waste Land", "T.S. Eliot", 6.99, POETRY, 10);
+        init_book(&catalog[30],31, "Paradise Lost", "John Milton", 12.00, POETRY, 7);
+        init_book(&catalog[31],32, "Beowulf", "Anonymous", 15.00, POETRY, 5);
+        init_book(&catalog[32],33, "Essays", "Michel de Montaigne", 20.00, ESSAY, 4);
+        init_book(&catalog[33],34, "Self-Reliance and Other Essays", "Ralph Waldo Emerson", 9.00, ESSAY, 9);
+        init_book(&catalog[34],35, "Civil Disobedience and Other Essays", "Henry David Thoreau", 7.50, ESSAY, 11);
+        init_book(&catalog[35],36, "Meditations", "Marcus Aurelius", 11.99, ESSAY, 8);
+        init_book(&catalog[36],37, "The Federalist Papers", "Alexander Hamilton, James Madison, John Jay", 18.00, ESSAY, 5);
+        init_book(&catalog[37],38, "The Communist Manifesto", "Karl Marx and Friedrich Engels", 5.99, ESSAY, 12);
+        init_book(&catalog[38],39, "The Republic", "Plato", 16.00, ESSAY, 6);
+        init_book(&catalog[39],40, "Thus Spoke Zarathustra", "Friedrich Nietzsche", 14.99, ESSAY, 10);
 
         if (argc == 1){}
 
@@ -193,7 +203,7 @@ int main(int argc, char ** argv){
 
                 if ((atoi(argv[2])) < NUM_BOOK){
                         ID_Book = atoi(argv[2]);             
-                        BookID(&books[0],ID_Book); 
+                        BookID(&catalog[0],ID_Book); 
                     }
                 }
 
@@ -201,17 +211,16 @@ int main(int argc, char ** argv){
 
                 if ((atoi(argv[2])) < 6){
                     Category_Book = atoi(argv[2]);             
-                    BookCategory(&books[0],Category_Book); 
+                    BookCategory(&catalog[0],Category_Book); 
                 }
             }
         }
         else if (argc == 2){
 
             if (strcmp(argv[1],"show") == 0){
-                BookList(&books[0]);
+                BookList(&catalog[0]);
             }
         }
-
 
     //Creamos un Menu para seleccionar la funcion que queramos:
 
@@ -227,7 +236,7 @@ int main(int argc, char ** argv){
 
     case 0://Primera opcion imprimir toda la lista
 
-        BookList(&books[0]); //llamamos la funcion de la lista de libros dandole la primera posicion del array de libros
+        BookList(&catalog[0]); //llamamos la funcion de la lista de libros dandole la primera posicion del array de libros
 
         break; 
 
@@ -238,7 +247,7 @@ int main(int argc, char ** argv){
 
         if(ID_Book <= NUM_BOOK){//Hacemos un condicional para verifiacr quel numero sea valido
             //llamamos la funcion de la imprimir libro por ID dandole la primera posicion del array de libros y el ID que queremos
-            BookID(&books[0],ID_Book);
+            BookID(&catalog[0],ID_Book);
         
         }else{//En caso de que el numero no sea valido imprime:
             printf("ERROR,Book doesnt exist. Please insert a valid ID(1-40)\n");
@@ -261,7 +270,7 @@ int main(int argc, char ** argv){
 
                 //llamamos la funcion de la imprimir libro por stock dandole la primera posicion del array de libros, 
                 //el ID que queremos y el stock que queremos agregarle
-                BookStock(&books[0]+i,Stock_IDBook,Stock_Book);
+                BookStock(&catalog[0]+i,Stock_IDBook,Stock_Book);
             }
 
         }else{//En caso de que el numero no sea valido imprime:
@@ -276,10 +285,12 @@ int main(int argc, char ** argv){
         scanf("%d", &Category_Book);//Guardamos el valor de la categoria que queremos
         
         //llamamos la funcion de la imprimir libro por categoria dandole la primera posicion del array de libros y el numero de categoria que queremos
-        BookCategory(&books[0],Category_Book); 
+        BookCategory(&catalog[0],Category_Book); 
         break; 
 
     default:printf("ERROR,Please enter a valid entry"); } //En caso de que el numero no sea valido imprime:
+
+    free(catalog);
 
     return 0;
 }

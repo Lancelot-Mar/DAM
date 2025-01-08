@@ -136,11 +136,7 @@ void BookCategory(Book * Category_Books,const int category_number){
     }
 }
 
-int main(int argc, char ** argv){
-
-
-
-
+int main(){
 
     //Definimos enteros y array con contenido de libros:
 
@@ -186,42 +182,8 @@ int main(int argc, char ** argv){
         {37, "The Federalist Papers", "Alexander Hamilton, James Madison, John Jay", 18.00, ESSAY, 5},
         {38, "The Communist Manifesto", "Karl Marx and Friedrich Engels", 5.99, ESSAY, 12},
         {39, "The Republic", "Plato", 16.00, ESSAY, 6},
-        {40, "Thus Spoke Zarathustra", "Friedrich Nietzsche", 14.99, ESSAY, 10},
+        {40, "Thus Spoke Zarathustra", "Friedrich Nietzsche", 14.99, ESSAY, 10}
     };
-
-
-    if (argc == 1){
-
-    }else if (argc == 2){
-
-        if (strcmp(argv[1],"show") == 0){
-
-            if ((argv[2]) < NUM_BOOK){
-                printf("Call function show for id");
-            }else{
-                printf("Call function show");
-            }
-
-        else if (strcmp(argv[1],"stock") == 0){
-
-            if ((argv[2]) < NUM_BOOK){
-                printf("Call function show for id");
-            }else{
-                printf("Call function show");
-            }
-
-        else if (strcmp(argv[1],"category") == 0){
-
-            argv[2] = Category_Book             
-            BookCategory(&books[0],Category_Book);
-
-        else if (strcmp(argv[1],"author") == 0){
-                
-            printf("Call function show for category");
-
-        }else if (strcmp(argv[1],"add") == 0)
-            printf("Call function add");
-        }
 
     //Creamos un Menu para seleccionar la funcion que queramos:
 
