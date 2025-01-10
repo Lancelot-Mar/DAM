@@ -140,12 +140,15 @@ void BookCategory(Book * Category_Books,const int category_number){
     }
 }
 
-Book * Book_Add(Book * Book_sum,const int sum){
+Book * Book_Add(Book * Book_sum){
 
-    int id,stock;
+    int id,stock,sum;
     float price;
     char tittle[MAX_TITTLE], author[MAX_AUTHOR];
     Category cat;
+
+    printf("Insert the number of books you want to add:\n");
+    scanf("%d", &sum);//Guardamos el valor de los libros a incrementar
 
     Book * catalog_new = realloc(Book_sum,(NUM_BOOK+sum)*sizeof(Book));
 
@@ -170,16 +173,30 @@ Book * Book_Add(Book * Book_sum,const int sum){
         init_book(&catalog_new[i],id,tittle,author,price,cat,stock);
     }
 
+        NUM_BOOK += sum;
+
     BookList(&catalog_new[0]);
 
     return &catalog_new[0];
+}   
+
+void BookAuthor(Book * Author_Books,const char author_search[MAX_AUTHOR]){
+
+    for (int i = 0; i < NUM_BOOK; ++i, Author_Books++){
+        for (int j = 0; j < NUM_BOOK; ++j){
+            if(strncmp((Author_Books -> author)+j,author_search,strlen(author_search)) == 0){
+                Print_Book(Author_Books);   
+            }
+        }
+    }
 }
 
 int main(int argc, char ** argv){
 
     //Definimos enteros y array con contenido de libros:
 
-    int ID_Book,Stock_Book,Stock_IDBook,Category_Book,Option,Book_inc;
+    int ID_Book,Stock_Book,Stock_IDBook,Category_Book,Option;
+    char auth[MAX_AUTHOR];
 
     Book * catalog = (Book *)malloc(NUM_BOOK*sizeof(Book));
 
@@ -234,7 +251,7 @@ int main(int argc, char ** argv){
 
         else if (argc == 4){
             
-            if (strcmp(argv[1],"add") == 0){
+            if (strcmp(argv[1],"stock") == 0){
 
                 if ((atoi(argv[2])) < NUM_BOOK){
                     Stock_IDBook = atoi(argv[2]);             
@@ -269,11 +286,20 @@ int main(int argc, char ** argv){
                     return 0; 
                 }
             }
+
+            if (strcmp(argv[1],"author") == 0){
+                    BookAuthor(&catalog[0],argv[2]);
+                    return 0; 
+            }
         }
         else if (argc == 2){
 
             if (strcmp(argv[1],"show") == 0){
                 BookList(&catalog[0]);
+                return 0;
+            }
+            if (strcmp(argv[1],"add") == 0){
+                catalog = Book_Add(&catalog[0]);
                 return 0;
             }
         }
@@ -282,10 +308,11 @@ int main(int argc, char ** argv){
 
     printf("Menu:\n\
         - Show all books.(0)\n\
-        - Display the book that matches the ID or an error message.(1)\n\
+        - Display the book that matches the ID.(1)\n\
         - Increase the stock of the book ID.(2)\n\
         - Display all books in the given category as a storyline.(3)\n\
-        - Increase the number of books.(4)\n");
+        - Increase the number of books.(4)\n\
+        - Display the book that matches the Author.(5)");
 
     scanf("%d",&Option); //Guardamos el valor del menu
 
@@ -347,10 +374,19 @@ int main(int argc, char ** argv){
 
     case 4:
 
-        printf("Insert the number of books you want to add:\n");
-        scanf("%d", &Book_inc);//Guardamos el valor de los libros a incrementar
+        catalog = Book_Add(&catalog[0]);
 
-        catalog = Book_Add(&catalog[0],Book_inc);
+        break;
+
+    case 5:
+
+        printf("Insert the author you want to search:\n");
+        scanf(" ");
+
+        fgets(auth, MAX_AUTHOR, stdin);
+        // Elimino el '\0'
+        auth[strlen(auth)-1] = '\0';
+        BookAuthor(&catalog[0],auth);
 
         break;
 
