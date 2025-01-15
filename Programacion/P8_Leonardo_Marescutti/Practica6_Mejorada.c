@@ -155,10 +155,10 @@ Book * Book_Add(Book * Book_sum){
     printf("Insert the number of books you want to add:\n");
     scanf("%d", &sum);//Guardamos el valor de los libros a incrementar
 
-    Book * catalog_new = realloc(Book_sum,(NUM_BOOK+sum)*sizeof(Book)); //hacemos un realloc con el tamaño de los libros anteriores mas el tamaño a incrementar
+    Book * catalog_new = (Book *)realloc(Book_sum, (NUM_BOOK+sum)*sizeof(Book)); //hacemos un realloc con el tamaño de los libros anteriores mas el tamaño a incrementar
 
     if(catalog_new == NULL){ //verificamos si el nuevo catalogo en nullo
-        free(catalog_new); 
+        exit(EXIT_FAILURE);
     }
 
     for (int i = NUM_BOOK; i < NUM_BOOK + sum; ++i){ //Bucle que pide el contenido del libro en base a los libros que queramos agregar
@@ -190,13 +190,12 @@ Book * Book_Add(Book * Book_sum){
 void BookAuthor(Book * Author_Books,const char author_search[MAX_AUTHOR]){
 
     for (int i = 0; i < NUM_BOOK; ++i, Author_Books++){ //Creamos un bucle para que recorra cada libro
-        for (int j = 0; j < NUM_BOOK; ++j){ //Creamos un bucle para que recorra cada letra de los autores
-            if(strncmp((Author_Books -> author)+j,author_search,strlen(author_search)) == 0){ //Creamos un condicional dando como condicion: si encuentra el autor imprima el libro en el que este ubicado
-                Print_Book(Author_Books); //Imprimimos el libro   
+            if(strstr((Author_Books -> author),author_search) != NULL){ 
+                Print_Book(Author_Books); //Imprimimos el libro
+                break;   
             }
         }
     }
-}
 
 int main(int argc, char ** argv){
 
@@ -210,7 +209,6 @@ int main(int argc, char ** argv){
     Book * catalog = (Book *)malloc(NUM_BOOK*sizeof(Book));
 
     if(catalog == NULL){ //Verifdicamos que el catalogo no sea nullo
-        free(catalog);
         printf("ERROR\n");
         return EXIT_FAILURE; //en caso de que este sea null, devolvera un error y terminara el programa
     }
@@ -273,7 +271,6 @@ int main(int argc, char ** argv){
                     for(int i = 0; i < NUM_BOOK; i++){ //Hacemos un bucle que recorra todos los libros hasta encontrar el que queremos agregar
                         BookStock(&catalog[0]+i,Stock_IDBook,Stock_Book); //Llamamos la funcion con las nuevas variables
                     }             
-                    return 0; //acabamos el programa
                 }
             }
         }
@@ -285,7 +282,6 @@ int main(int argc, char ** argv){
                 if ((atoi(argv[2])) < NUM_BOOK){ //Verificamos que sea valido
                         ID_Book = atoi(argv[2]); //Aplicamos la variable la segunda entrada a entero con el atoi             
                         BookID(&catalog[0],ID_Book); //Llamamos la funcion buscar libro por autor dandole el primer libro y la variable que acabamos de declarar
-                        return 0; //acabamos el programa
                     }
                 }
 
@@ -294,24 +290,20 @@ int main(int argc, char ** argv){
                 if ((atoi(argv[2])) < 6){ //Verificamos que sea valido
                     Category_Book = atoi(argv[2]); //Aplicamos la variable la segunda entrada a entero con el atoi            
                     BookCategory(&catalog[0],Category_Book); //Llamamos la funcion buscar libro por autor dandole el primer libro y la variable que acabamos de declarar
-                    return 0; //acabamos el programa
                 }
             }
 
             if (strcmp(argv[1],"author") == 0){ //Si la 1 entrada es author va a hacer lo siguiente
                     BookAuthor(&catalog[0],argv[2]); //Llamamos la funcion buscar libro por autor dandole el primer libro y la segunda entrada de la linea de comando
-                    return 0; //acabamos el programa
             }
         }
         else if (argc == 2){  //hacemos un condicional el cual diga que si argc tiene un total de 2 entradas haga lo siguiente
 
             if (strcmp(argv[1],"show") == 0){ //Si la 1 entrada es show va a hacer lo siguiente
                 BookList(&catalog[0]); //Llamamos la funcion imprimir catalogo dandole el primer libro
-                return 0; //acabamos el programa
             }
             if (strcmp(argv[1],"add") == 0){ //Si la 1 entrada es add va a hacer lo siguiente
                 catalog = Book_Add(&catalog[0]); //Llamamos la funcion agregar libro dandole el primer libro
-                return 0;//acabamos el programa
             }
         }
 
